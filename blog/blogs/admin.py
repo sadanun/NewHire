@@ -1,7 +1,7 @@
-from blogs.models import Category
-from blogs.models import Comment
-from blogs.models import Post
-from blogs.models import Tag
+from blog.blogs.models import Category
+from blog.blogs.models import Comment
+from blog.blogs.models import Post
+from blog.blogs.models import Tag
 from django.contrib import admin
 
 

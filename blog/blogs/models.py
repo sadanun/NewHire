@@ -12,7 +12,7 @@ class Person(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return "Name : " + self.name + ", Age : " + str(self.age)
+        return "Name : " + str(self.name) + ", Age : " + str(self.age)
 
 
 class Category(models.Model):
@@ -62,6 +62,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
