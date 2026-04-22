@@ -12,7 +12,7 @@ User = get_user_model()
 class Command(BaseCommand):
     help = "Seed database with sample blog posts, categories, and tags."
 
-    def handle(self, *_args, **_options):  # pyright: ignore[reportUnusedParameter]
+    def handle(self, *_args, **_options):
         self.stdout.write("Seeding data...")
 
         author, created = User.objects.get_or_create(
