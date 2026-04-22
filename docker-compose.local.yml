@@ -14,9 +14,10 @@ services:
       - postgres
       - redis
       - mailpit
+    user: 1000:1000
     volumes:
       - /app/.venv
-      - .:/app:z
+      - .:/app
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
