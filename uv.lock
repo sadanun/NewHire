@@ -149,7 +149,7 @@ dependencies = [
     { name = "gunicorn" },
     { name = "hiredis" },
     { name = "pillow" },
-    { name = "psycopg", extra = ["c"] },
+    { name = "psycopg" },
     { name = "python-slugify" },
     { name = "redis" },
 ]
@@ -192,7 +192,7 @@ requires-dist = [
     { name = "django-crispy-forms", specifier = "==2.6" },
     { name = "django-environ", specifier = "==0.13.0" },
     { name = "django-model-utils", specifier = "==5.0.0" },
-    { name = "django-oscar" },
+    { name = "django-oscar", specifier = "==4.1" },
     { name = "django-redis", specifier = "==6.0.0" },
     { name = "django-storages", extras = ["s3"], specifier = "==1.14.6" },
     { name = "djangorestframework", specifier = "==3.17.1" },
@@ -201,7 +201,7 @@ requires-dist = [
     { name = "gunicorn", specifier = "==25.3.0" },
     { name = "hiredis", specifier = "==3.3.1" },
     { name = "pillow", specifier = "==12.2.0" },
-    { name = "psycopg", extras = ["c"], specifier = "==3.3.3" },
+    { name = "psycopg", specifier = "==3.3.3" },
     { name = "python-slugify", specifier = "==8.0.4" },
     { name = "redis", specifier = "==7.4.0" },
 ]
