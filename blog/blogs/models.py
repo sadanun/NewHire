@@ -4,6 +4,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
 
+
 # Create your models here.
 class Person(models.Model):
     name = models.CharField(max_length=100)
@@ -17,20 +18,25 @@ class Person(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
+
     def __str__(self):
         return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
+
     def __str__(self):
         return self.name
+
 
 def validate_file_size(value):
     limit_mb = 2
     if value.size > limit_mb * 1024 * 1024:
         error_message = f"ไฟล์รูปภาพมีขนาดใหญ่เกินไป (สูงสุด {limit_mb} MB)"
         raise ValidationError(error_message)
+
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -53,6 +59,7 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
 
@@ -61,5 +68,6 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f"Comment by {self.author} on {self.post.title}"
