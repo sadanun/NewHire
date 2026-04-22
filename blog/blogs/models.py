@@ -6,15 +6,6 @@ from django.utils import timezone
 
 
 # Create your models here.
-class Person(models.Model):
-    name = models.CharField(max_length=100)
-    age = models.IntegerField()
-    date_posted = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return "Name : " + str(self.name) + ", Age : " + str(self.age)
-
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
