@@ -36,3 +36,9 @@ logs *args:
 # manage: Executes `manage.py` command.
 manage +args:
     @docker compose run --rm django python ./manage.py {{args}}
+
+bash:
+    @docker compose -f docker-compose.local.yml exec django bash
+
+start:
+    @docker compose -f docker-compose.local.yml up -d
