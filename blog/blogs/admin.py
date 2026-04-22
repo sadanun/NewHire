@@ -1,9 +1,9 @@
 from django.contrib import admin
+
 from blog.blogs.models import Category
 from blog.blogs.models import Comment
 from blog.blogs.models import Post
 from blog.blogs.models import Tag
-
 
 
 @admin.register(Category)
