@@ -29,7 +29,8 @@ class Tag(models.Model):
 def validate_file_size(value):
     limit_mb = 2
     if value.size > limit_mb * 1024 * 1024:
-        raise ValidationError(f"ไฟล์รูปภาพมีขนาดใหญ่เกินไป (สูงสุด {limit_mb} MB)")
+        error_message = "ไฟล์รูปภาพมีขนาดใหญ่เกินไป (สูงสุด {} MB)".format(limit_mb)
+        raise ValidationError(error_message)
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
