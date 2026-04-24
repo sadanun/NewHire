@@ -9,7 +9,7 @@ from blog.blogs.models import Tag
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "slug")
-
+    prepopulated_fields = {"slug": ("name",)}
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

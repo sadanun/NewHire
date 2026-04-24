@@ -1,5 +1,4 @@
 {% load static i18n %}
-
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
@@ -39,8 +38,17 @@
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
     {% block body %}
+    <div class="topbar" style="background-color: var(--ab_bg_color);">
+      <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="py-2" style="color: var(--ab_text_color);">Welcome to our store</div>
+            </div>
+        </div>
+      </div>
+    </div> 
       <div class="mb-1">
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top border-bottom">
           <div class="container-fluid">
             <button class="navbar-toggler navbar-toggler-right"
                     type="button"
@@ -51,7 +59,7 @@
                     aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'home' %}">blog</a>
+            <a class="navbar-brand" href="{% url 'list_view' %}">blog</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -60,9 +68,15 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
+                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'list_view' %}">Blog</a>
+                </li>
+                {% comment %} <li class="nav-item">
+                  <a class="nav-link" href="{% url 'list_view' %}">Category</a>
+                </li> {% endcomment %}
                 {% if request.user.is_authenticated %}
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
+                    {% comment %} <a class="nav-link" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a> {% endcomment %}
                   </li>
                   <li class="nav-item">
                     {# URL provided by django-allauth/account/urls.py #}
@@ -83,7 +97,7 @@
               </ul>
             </div>
           </div>
-        </nav>
+        </nav> 
       </div>
       <div class="container">
         {% if messages %}
@@ -104,6 +118,40 @@
         {% endblock main %}
       </div>
     {% endblock body %}
+ 
+    <footer class="pt-5 pb-4 mt-5" style="background-color: var(--ab_bg_color);">
+    <div class="container">
+      <div class="row text-center text-md-start"> 
+        <div class="col-md-4 col-lg-4 col-xl-3 mx-auto mb-4">
+          <h5 class="text-uppercase fw-bold text-warning mb-4">MyWebsite</h5>
+          <p>
+            เว็บไซต์รวบรวมบทความและข่าวสาร อัปเดตความรู้ใหม่ๆ ส่งตรงถึงหน้าจอคุณ
+          </p>
+        </div> 
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h5 class="text-uppercase fw-bold text-warning mb-4">เมนูหลัก</h5>
+          <p><a href="{% url 'home' %}" class="text-decoration-none">หน้าแรก (Home)</a></p>
+          <p><a href="{% url 'about' %}" class="text-decoration-none">เกี่ยวกับเรา (About)</a></p>
+          <p><a href="{% url 'list_view' %}" class="text-decoration-none">บทความ (Blog)</a></p>
+        </div>
+
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <h5 class="text-uppercase fw-bold text-warning mb-4">ติดต่อเรา</h5>
+          <address>
+                        29 Next Sandbox<br>
+                        Next Commerce Street, Suite 100<br>
+                        Los Santos, CA
+                        
+                        10001
+                        <br>
+                        United States
+                    </address>
+        </div>
+
+      </div> 
+    <hr class="mb-4"> 
+</footer>
+
     <!-- /container -->
     {% block modal %}
     {% endblock modal %}
