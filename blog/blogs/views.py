@@ -1,10 +1,8 @@
 from django.db.models import Q
-from django.views.generic import DetailView
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from blog.blogs.form import PostSearchForm
-from blog.blogs.models import Category
-from blog.blogs.models import Post
+from blog.blogs.models import Category, Post
 
 
 class PostListView(ListView):
