@@ -9,6 +9,9 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
 
+    class Meta:
+        app_label = "blogs"
+
     def __str__(self):
         return self.name
 
@@ -44,7 +47,7 @@ class Post(models.Model):
     status = models.CharField(
         max_length=10, choices=[("draft", "Draft"), ("published", "Published")]
     )
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey("blogs.Category", on_delete=models.SET_NULL, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

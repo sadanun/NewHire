@@ -1,43 +1,40 @@
 from django.db.models import Q
-from django.views.generic import DetailView
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
-from .models import Category
-from .models import Post
+from blog.blogs.form import PostSearchForm
+from blog.blogs.models import Category, Post
 
 
 class PostListView(ListView):
     model = Post
     template_name = "pages/post-list.html"
     context_object_name = "posts"
-    paginate_by = 10
+    paginate_by = 3
+    form_class = PostSearchForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["categories"] = Category.objects.all()
+        context["form"] = self.form_class(self.request.GET)
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        query = self.request.GET.get("q")
-        category_slug = self.request.GET.get("category")
-        if category_slug:
-            queryset = queryset.filter(category__slug=category_slug)
 
+        self.form = self.form_class(self.request.GET)
+        if not self.form.is_valid():
+            return queryset
+        query = self.form.cleaned_data["q"]
+        category = self.form.cleaned_data["category"]
+        if category:
+            queryset = queryset.filter(category=category)
         if query:
             queryset = queryset.filter(
                 Q(title__icontains=query) | Q(body__icontains=query)
             ).distinct()
-        return queryset
 
-    def get_paginate_by(self, queryset):
-        paginate_by = self.request.GET.get("paginate_by")
-        if paginate_by:
-            try:
-                return int(paginate_by)
-            except ValueError:
-                pass
-        return self.paginate_by
+
+        return queryset
 
 
 class PostDetailView(DetailView):
