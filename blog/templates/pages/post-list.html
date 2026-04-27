@@ -6,7 +6,7 @@
 {% block breadcrumb_active %}
   {{ category.name }}
 {% endblock breadcrumb_active %}
-{% block content %} 
+{% block content %}
   <!-- Page content-->
   <div class="container-xl">
     <div class="row">
@@ -72,12 +72,12 @@
               {% if page_obj.number == num %}
                 <li class="page-item active">
                   <span class="page-link">{{ num }}</span>
-                  </li>
-                {% else %}
+                </li>
+              {% else %}
                 <li class="page-item">
                   <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                  </li>
-                {% endif %}
+                </li>
+              {% endif %}
             {% endfor %}
             {% if page_obj.has_next %}
               <li class="page-item">
