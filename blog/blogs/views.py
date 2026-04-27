@@ -26,7 +26,7 @@ class PostListView(ListView):
 
         if query:
             queryset = queryset.filter(
-                Q(title__icontains=query) | Q(body__icontains=query)  # noqa: E501
+                Q(title__icontains=query) | Q(body__icontains=query)
             ).distinct()
         return queryset
 
