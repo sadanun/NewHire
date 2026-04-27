@@ -22,12 +22,12 @@ urlpatterns = [
     path(
         "posts/",
         PostListView.as_view(),
-        name="list_view",
+        name="post-list",
     ),
     path(
         "posts/<slug:slug>/",
         PostDetailView.as_view(),
-        name="detail_view",
+        name="post-detail",
     ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

@@ -8,7 +8,7 @@ from .models import Post
 
 class PostListView(ListView):
     model = Post
-    template_name = "pages/list_view.html"
+    template_name = "pages/post-list.html"
     context_object_name = "posts"
     paginate_by = 10
 
@@ -25,7 +25,8 @@ class PostListView(ListView):
             queryset = queryset.filter(category__slug=category_slug)
 
         if query:
-            queryset = queryset.filter(Q(title__icontains=query) | Q(body__icontains=query)  # noqa: E501
+            queryset = queryset.filter(
+                Q(title__icontains=query) | Q(body__icontains=query)  # noqa: E501
             ).distinct()
         return queryset
 
@@ -41,8 +42,5 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = "pages/detail_view.html"
+    template_name = "pages/post-detail.html"
     context_object_name = "post"
-
-
-
