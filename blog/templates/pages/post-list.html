@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Blog</title>{% endblock %}
+{% block breadcrumb_active %}{{ category.name }}{% endblock %}
+{% block content %} 
+        <!-- Page content-->
+        <div class="container-xl">
+            <div class="row">
+                <!-- Blog entries-->
+                <div class="col-md-9 order-md-0">
+                    <!-- Featured blog post-->
+                   {% for posts in  posts %}
+                        <div class="card mb-5 border-0"> 
+                        {% if posts.featured_image %}
+                        <a href="{% url 'post-detail' posts.slug %}">
+                         <img src="{{ posts.featured_image.url }}" alt="{{ posts.title }}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;">
+                        </a>
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="mb-3">
+                                {% for tag in posts.tags.all %}
+                                <span class="badge bg-secondary">{{ tag.name }}</span>
+                                {% endfor %}
+                            </div> 
+                            <h2 class="d-flex mb-3 fs-7 text-muted">{{ posts.title }}</h2>
+                            <p class="card-text">{{ posts.category }}</p> 
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ posts.author}}</strong>
+                            <small class="text-muted">{{ posts.created_at|date:"F d, Y" }}</small>
+                        </div>
+                            <div class="d-grid gap-2 d-md-block mt-2"><a href="{% url 'post-detail' posts.slug %}">More</a></div>
+                        </div>
+                        </div>
+                        {% empty %}
+                        {% if request.GET.q %}
+                        <p>Search results for : <strong>{{ request.GET.q }}</strong></p>
+                        {% elif request.GET.category %}
+                            <p>category: <strong>{{ request.GET.category }}</strong></p>
+                        {% endif %} 
+                        <p>Found 0 results.</p> 
+                    {% endfor %}
+                    <!-- Pagination-->
+                     
+                    <nav aria-label="Pagination">
+                        <hr class="my-0" />
+                        <ul class="pagination justify-content-center my-4">
+                            
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </span>
+                            </li>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>    
+                </div>
+                <!-- Side widgets-->
+                <div class="col-md-3 order-md-1"> <div class="sticky-top" style="top: 20px;">
+                    <!-- Search widget--> 
+                    <div class="card mb-4">
+                        <div class="card-header">Search</div>
+                        <div class="card-body">
+                            <form action="." method="get">
+                                <div class="input-group">
+                                    <input 
+                                        class="form-control" 
+                                        name="q" 
+                                        type="text" 
+                                        placeholder="Search Post" 
+                                        aria-label="Search Post" 
+                                        aria-describedby="button-search" 
+                                        value="{{ request.GET.q }}"
+                                    />
+                                    <button class="btn btn-primary" id="button-search" type="submit">Go!</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                    <!-- Categories widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Categories</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <select class="form-select" onchange="location = this.value;">
+                                        <option class="form-select" value="{% url 'post-list' %}">All Categories</option>
+                                        {% for cat in categories %}
+                                            <option value="?category={{ cat.slug }}" {% if request.GET.category == cat.slug %}selected{% endif %}>
+                                                {{ cat.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select> 
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>  
+      </div>
+    </div>
+  {% endblock %}
