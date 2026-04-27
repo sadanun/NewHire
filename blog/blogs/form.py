@@ -4,13 +4,12 @@ from blog.blogs.models import Category
 
 
 class PostSearchForm(forms.Form):
-
     q = forms.CharField(
         required=False,
         widget=forms.TextInput(
             attrs={"placeholder": "Search posts..", "class": "form-control"}
         ),
-     )
+    )
 
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
@@ -19,5 +18,4 @@ class PostSearchForm(forms.Form):
         widget=forms.Select(
             attrs={"class": "form-select", "onchange": "this.form.submit()"}
         ),
-     )
-
+    )
