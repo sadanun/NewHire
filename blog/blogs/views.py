@@ -1,8 +1,10 @@
 from django.db.models import Q
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
+from django.views.generic import ListView
 
 from blog.blogs.form import PostSearchForm
-from blog.blogs.models import Category, Post
+from blog.blogs.models import Category
+from blog.blogs.models import Post
 
 
 class PostListView(ListView):
@@ -32,7 +34,6 @@ class PostListView(ListView):
             queryset = queryset.filter(
                 Q(title__icontains=query) | Q(body__icontains=query)
             ).distinct()
-
 
         return queryset
 

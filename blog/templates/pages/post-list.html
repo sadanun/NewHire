@@ -50,7 +50,7 @@
           <p>Found 0 results.</p>
         {% endfor %}
         <!-- Pagination-->
-         {% include "pages/pagination.html" %}
+        {% include "pages/pagination.html" %}
       </div>
       <!-- Side widgets-->
       <div class="col-md-3 order-md-1">
@@ -60,9 +60,7 @@
             <div class="card mb-4">
               <div class="card-header">Search</div>
               <div class="card-body">
-                  <div class="input-group">
-                      {{form.q}}
-                  </div>
+                <div class="input-group">{{ form.q }}</div>
               </div>
             </div>
             <!-- Categories widget-->
@@ -70,9 +68,7 @@
               <div class="card-header">Categories</div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-sm-12">
-                      {{form.category}}
-                  </div> 
+                  <div class="col-sm-12">{{ form.category }}</div>
                 </div>
               </div>
             </div>
