@@ -14,11 +14,11 @@ urlpatterns = [
         TemplateView.as_view(template_name="blogs/about.html"),
         name="about",
     ),
-    path("blogs/", include("blog.blogs.urls", namespace="blogs")),
+    path("blogs/", include("blog.blogs.urls")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("blog.users.urls", namespace="users")),
+    path("users/", include("blog.users.urls")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
     # Media files
