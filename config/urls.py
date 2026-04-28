@@ -7,25 +7,14 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
-from blog.blogs.views import PostDetailView, PostListView
-
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", TemplateView.as_view(template_name="blogs/home.html"), name="home"),
     path(
         "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
+        TemplateView.as_view(template_name="blogs/about.html"),
         name="about",
     ),
-    path(
-        "posts/",
-        PostListView.as_view(),
-        name="post-list",
-    ),
-    path(
-        "posts/<slug:slug>/",
-        PostDetailView.as_view(),
-        name="post-detail",
-    ),
+    path("blogs/", include("blog.blogs.urls", namespace="blogs")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

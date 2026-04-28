@@ -7,9 +7,9 @@ from blog.blogs.models import Category, Post
 
 class PostListView(ListView):
     model = Post
-    template_name = "pages/post-list.html"
+    template_name = "blogs/post-list.html"
     context_object_name = "posts"
-    paginate_by = 3
+    paginate_by = 10
     form_class = PostSearchForm
 
     def get_context_data(self, **kwargs):
@@ -36,7 +36,13 @@ class PostListView(ListView):
         return queryset
 
 
+post_list_view = PostListView.as_view()
+
+
 class PostDetailView(DetailView):
     model = Post
-    template_name = "pages/post-detail.html"
+    template_name = "blogs/post-detail.html"
     context_object_name = "post"
+
+
+post_detail_view = PostDetailView.as_view()

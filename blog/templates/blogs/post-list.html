@@ -16,7 +16,7 @@
         {% for posts in posts %}
           <div class="card mb-5 border-0">
             {% if posts.featured_image %}
-              <a href="{% url 'post-detail' posts.slug %}">
+              <a href="{% url 'blogs:post-detail' posts.slug %}">
                 <img src="{{ posts.featured_image.url }}"
                      alt="{{ posts.title }}"
                      class="post-list-image" />
@@ -33,7 +33,7 @@
                 <small class="text-muted">{{ posts.created_at|date:"F d, Y" }}</small>
               </div>
               <div class="d-grid gap-2 d-md-block mt-2">
-                <a href="{% url 'post-detail' posts.slug %}">More</a>
+                <a href="{% url 'blogs:post-detail' posts.slug %}">More</a>
               </div>
             </div>
           </div>
@@ -50,7 +50,7 @@
           <p>Found 0 results.</p>
         {% endfor %}
         <!-- Pagination-->
-        {% include "pages/pagination.html" %}
+        {% include "blogs/pagination.html" %}
       </div>
       <!-- Side widgets-->
       <div class="col-md-3 order-md-1">

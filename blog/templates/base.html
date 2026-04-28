@@ -60,7 +60,7 @@
                     aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'post-list' %}">blog</a>
+            <a class="navbar-brand" href="{% url 'blogs:post-list' %}">blog</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -70,7 +70,7 @@
                   <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'post-list' %}">Blog</a>
+                  <a class="nav-link" href="{% url 'blogs:post-list' %}">Blog</a>
                 </li>
                 {% if request.user.is_authenticated %}
                   <li class="nav-item">
@@ -132,7 +132,7 @@
               <a href="{% url 'about' %}" class="text-decoration-none">เกี่ยวกับเรา (About)</a>
             </p>
             <p>
-              <a href="{% url 'post-list' %}" class="text-decoration-none">บทความ (Blog)</a>
+              <a href="{% url 'blogs:post-list' %}" class="text-decoration-none">บทความ (Blog)</a>
             </p>
           </div>
           <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
