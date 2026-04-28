@@ -2,9 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
-from blog.blogs.models import Category
-from blog.blogs.models import Post
-from blog.blogs.models import Tag
+from blog.blogs.models import Category, Post, Tag
 
 User = get_user_model()
 

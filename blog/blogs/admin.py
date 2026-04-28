@@ -1,14 +1,12 @@
 from django.contrib import admin
 
-from blog.blogs.models import Category
-from blog.blogs.models import Comment
-from blog.blogs.models import Post
-from blog.blogs.models import Tag
+from blog.blogs.models import Category, Comment, Post, Tag
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "slug")
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Tag)
