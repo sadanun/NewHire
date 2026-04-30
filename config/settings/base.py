@@ -5,6 +5,7 @@ import ssl
 from pathlib import Path
 
 import environ
+from oscar.defaults import *  # noqa: F403
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # blog/
@@ -67,8 +68,39 @@ DJANGO_APPS = [
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
+    "django.contrib.flatpages",
 ]
 THIRD_PARTY_APPS = [
+    "oscar.config.Shop",
+    "oscar.apps.analytics.apps.AnalyticsConfig",
+    "oscar.apps.checkout.apps.CheckoutConfig",
+    "oscar.apps.address.apps.AddressConfig",
+    "oscar.apps.shipping.apps.ShippingConfig",
+    "oscar.apps.catalogue.apps.CatalogueConfig",
+    "oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig",
+    "oscar.apps.communication.apps.CommunicationConfig",
+    "oscar.apps.partner.apps.PartnerConfig",
+    "oscar.apps.basket.apps.BasketConfig",
+    "oscar.apps.payment.apps.PaymentConfig",
+    "oscar.apps.offer.apps.OfferConfig",
+    "oscar.apps.order.apps.OrderConfig",
+    "oscar.apps.customer.apps.CustomerConfig",
+    "oscar.apps.search.apps.SearchConfig",
+    "oscar.apps.voucher.apps.VoucherConfig",
+    "oscar.apps.wishlists.apps.WishlistsConfig",
+    "oscar.apps.dashboard.apps.DashboardConfig",
+    "oscar.apps.dashboard.reports.apps.ReportsDashboardConfig",
+    "oscar.apps.dashboard.users.apps.UsersDashboardConfig",
+    "oscar.apps.dashboard.orders.apps.OrdersDashboardConfig",
+    "oscar.apps.dashboard.catalogue.apps.CatalogueDashboardConfig",
+    "oscar.apps.dashboard.offers.apps.OffersDashboardConfig",
+    "oscar.apps.dashboard.partners.apps.PartnersDashboardConfig",
+    "oscar.apps.dashboard.pages.apps.PagesDashboardConfig",
+    "oscar.apps.dashboard.ranges.apps.RangesDashboardConfig",
+    "oscar.apps.dashboard.reviews.apps.ReviewsDashboardConfig",
+    "oscar.apps.dashboard.vouchers.apps.VouchersDashboardConfig",
+    "oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig",
+    "oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "allauth",
@@ -80,11 +112,15 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "django_tables2",
+    "django_ckeditor_5",
+    "widget_tweaks",
 ]
 
 LOCAL_APPS = [
     "blog.users",
     "blog.blogs",
+    "blog.blog_dashboard.apps.DashboardConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -99,6 +135,7 @@ MIGRATION_MODULES = {"sites": "blog.contrib.sites.migrations"}
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
+    "oscar.apps.customer.auth_backends.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
@@ -143,6 +180,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "oscar.apps.basket.middleware.BasketMiddleware",
+    "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
 ]
 
 # STATIC
@@ -165,6 +204,92 @@ STATICFILES_FINDERS = [
 MEDIA_ROOT = str(APPS_DIR / "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
+
+# --- Upload limits (Django built-in) ---
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+
+# CKEditor 5
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_FILE_TYPES = ["jpeg", "jpg", "png", "gif", "webp"]
+
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "|",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+            "imageUpload",
+            "insertTable",
+            "|",
+            "code",
+            "codeBlock",
+            "horizontalLine",
+            "|",
+            "undo",
+            "redo",
+        ],
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "imageStyle:alignLeft",
+                "imageStyle:alignRight",
+                "imageStyle:alignCenter",
+                "imageStyle:side",
+            ],
+            "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter"],
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+            ],
+        },
+        "heading": {
+            "options": [
+                {
+                    "model": "paragraph",
+                    "title": "Paragraph",
+                    "class": "ck-heading_paragraph",
+                },
+                {
+                    "model": "heading1",
+                    "view": "h1",
+                    "title": "Heading 1",
+                    "class": "ck-heading_heading1",
+                },
+                {
+                    "model": "heading2",
+                    "view": "h2",
+                    "title": "Heading 2",
+                    "class": "ck-heading_heading2",
+                },
+                {
+                    "model": "heading3",
+                    "view": "h3",
+                    "title": "Heading 3",
+                    "class": "ck-heading_heading3",
+                },
+            ],
+        },
+    },
+    # config อีกชุดสำหรับ comment สั้นๆ
+    "comment": {
+        "toolbar": ["bold", "italic", "link", "bulletedList", "numberedList"],
+    },
+}
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
@@ -189,6 +314,10 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "blog.users.context_processors.allauth_settings",
+                "oscar.apps.search.context_processors.search_form",
+                "oscar.apps.checkout.context_processors.checkout",
+                "oscar.apps.communication.notifications.context_processors.notifications",
+                "oscar.core.context_processors.metadata",
             ],
         },
     },
@@ -349,3 +478,24 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+HAYSTACK_CONNECTIONS = {
+    "default": {
+        "ENGINE": "haystack.backends.simple_backend.SimpleEngine",
+    },
+}
+OSCAR_DASHBOARD_NAVIGATION += [  # noqa: F405
+    {
+        "label": "Post List",
+        "icon": "fas fa-shopping-cart",
+        "url_name": "blog_dashboard:post-list",
+        # "access_fn": lambda user, *args, **kwargs: user.is_authenticated,
+    },
+    {
+        "label": "Category List",
+        "icon": "fas fa-chart-bar",
+        "url_name": "blog_dashboard:category-list",
+        # "access_fn": lambda user, *args, **kwargs: user.is_authenticated,
+    },
+]
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5.html"

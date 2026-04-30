@@ -2,6 +2,10 @@
 With these settings, tests run faster.
 """
 
+import os
+
+os.environ.setdefault("DATABASE_URL", "sqlite:///test_db.sqlite3")
+
 from .base import *  # noqa: F403
 from .base import TEMPLATES, env
 
