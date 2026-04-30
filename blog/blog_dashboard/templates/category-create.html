@@ -1,0 +1,70 @@
+{% extends 'oscar/dashboard/layout.html' %}
+
+{% load i18n %}
+
+{% block extrastyles %}
+  {{ block.super }}
+  {{ form.media.css }}
+{% endblock extrastyles %}
+{% block extrascripts %}
+  {{ block.super }}
+  {{ form.media.js }}
+{% endblock extrascripts %}
+{% block body_class %}
+  {{ block.super }} create-page catalogue
+{% endblock body_class %}
+{% block breadcrumbs %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'blog_dashboard:category-list' %}">{% trans "Categories" %}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
+  </nav>
+{% endblock breadcrumbs %}
+{% block headertext %}
+  {{ title }}
+{% endblock headertext %}
+{% block title %}
+  <title>
+    {% if is_edit %}
+      Edit Category
+    {% else %}
+      Create New Category
+    {% endif %}
+  </title>
+{% endblock title %}
+{% block content %}
+  <h2 class="mb-4">
+    {% if is_edit %}
+      แก้ไขโพสต์
+    {% else %}
+      New Post
+    {% endif %}
+  </h2>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.media }}
+        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+        {{ form.as_p }}
+        {% block fixed_actions_group %}
+          <div class="fixed-actions-group">
+            <div class="form-actions">
+              <div class="float-right">
+                <a href="#" onclick="window.history.go(-1);return false">{% trans "Cancel" %}</a>
+                {% trans "or" %}
+                <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+              </div>
+            </div>
+          </div>
+        {% endblock fixed_actions_group %}
+      </form>
+    </div>
+  </div>
+{% endblock content %}

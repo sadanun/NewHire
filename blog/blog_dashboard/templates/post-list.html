@@ -1,0 +1,34 @@
+{% extends 'oscar/dashboard/layout.html' %}
+
+{% load category_tags %}
+{% load i18n %}
+{% load render_table from django_tables2 %}
+
+{% block body_class %}
+  {{ block.super }} posts
+{% endblock body_class %}
+{% block title %}
+  {% trans "Posts" %} | {{ block.super }}
+{% endblock title %}
+{% block breadcrumbs %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Posts" %}</li>
+    </ol>
+  </nav>
+{% endblock breadcrumbs %}
+{% block header %}
+  <div class="page-header">
+    <a href="{% url 'blog_dashboard:post-create' %}"
+       class="btn btn-primary float-right"><i class="fas fa-plus-circle"></i> {% trans "Create new post" %}</a>
+    <h1>{% trans "Posts" %}</h1>
+  </div>
+{% endblock header %}
+{% block dashboard_content %}
+  <table class="table table-striped table-bordered table-hover">
+    {% render_table posts %}
+  </table>
+{% endblock dashboard_content %}
