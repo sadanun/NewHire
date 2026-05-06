@@ -2,17 +2,9 @@
 
 {% load i18n %}
 
-{% block extrastyles %}
-  {{ block.super }}
-  {{ form.media.css }}
-{% endblock extrastyles %}
-{% block extrascripts %}
-  {{ block.super }}
-  {{ form.media.js }}
-{% endblock extrascripts %}
-{% block body_class %}
-  {{ block.super }} create-page catalogue
-{% endblock body_class %}
+{% block title %}
+  {% trans "Create categories" %} | {{ block.super }}
+{% endblock title %}
 {% block breadcrumbs %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -26,33 +18,19 @@
     </ol>
   </nav>
 {% endblock breadcrumbs %}
-{% block headertext %}
-  {{ title }}
-{% endblock headertext %}
-{% block title %}
-  <title>
-    {% if is_edit %}
-      Edit Category
-    {% else %}
-      Create New Category
-    {% endif %}
-  </title>
-{% endblock title %}
 {% block content %}
   <h2 class="mb-4">
     {% if is_edit %}
-      แก้ไขโพสต์
+      {% trans "Edit Category" %}
     {% else %}
-      New Post
+      {% trans "Create New Category" %}
     {% endif %}
   </h2>
   <div class="card shadow-sm">
     <div class="card-body">
       <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
-        {{ form.media }}
-        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
-        {{ form.as_p }}
+        {% include "oscar/partials/form_fields.html" with form=form %}
         {% block fixed_actions_group %}
           <div class="fixed-actions-group">
             <div class="form-actions">

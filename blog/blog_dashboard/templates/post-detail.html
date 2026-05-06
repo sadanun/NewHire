@@ -3,10 +3,9 @@
 {% load i18n %}
 
 {% block title %}
-  <title>{{ post.title }}</title>
+  {% trans "Post Details" %} | {{ block.super }}
 {% endblock title %}
 {% block extrastyles %}
-  {{ block.super }}
   <style>
     .post-featured-image {
       width: 20%;

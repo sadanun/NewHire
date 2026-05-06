@@ -1,7 +1,9 @@
 {% extends 'oscar/dashboard/layout.html' %}
 
+{% load i18n %}
+
 {% block title %}
-  <title>Confirm Category Deletion</title>
+  {% trans "Confirm Category Deletion" %} | {{ block.super }}
 {% endblock title %}
 {% block content %}
   <h2 class="mb-4 text-danger">Confirm Category Deletion</h2>

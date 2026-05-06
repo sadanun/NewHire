@@ -25,3 +25,8 @@
   object-fit: cover;
   margin: 25px;
 }
+
+.post-thumb {
+  width: 50px;
+  border-radius: 4px;
+}

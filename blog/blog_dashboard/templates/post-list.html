@@ -4,9 +4,6 @@
 {% load i18n %}
 {% load render_table from django_tables2 %}
 
-{% block body_class %}
-  {{ block.super }} posts
-{% endblock body_class %}
 {% block title %}
   {% trans "Posts" %} | {{ block.super }}
 {% endblock title %}

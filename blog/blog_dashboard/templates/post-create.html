@@ -2,17 +2,9 @@
 
 {% load i18n %}
 
-{% block extrastyles %}
-  {{ block.super }}
-  {{ form.media.css }}
-{% endblock extrastyles %}
-{% block extrascripts %}
-  {{ block.super }}
-  {{ form.media.js }}
-{% endblock extrascripts %}
-{% block body_class %}
-  {{ block.super }} create-page catalogue
-{% endblock body_class %}
+{% block title %}
+  {{ title }} | {% trans "Create Post" %} | {{ block.super }}
+{% endblock title %}
 {% block breadcrumbs %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -26,26 +18,7 @@
     </ol>
   </nav>
 {% endblock breadcrumbs %}
-{% block headertext %}
-  {{ title }}
-{% endblock headertext %}
-{% block title %}
-  <title>
-    {% if is_edit %}
-      Edit Post
-    {% else %}
-      Create New Post
-    {% endif %}
-  </title>
-{% endblock title %}
 {% block content %}
-  <h2 class="mb-4">
-    {% if is_edit %}
-      แก้ไขโพสต์
-    {% else %}
-      New Post
-    {% endif %}
-  </h2>
   <div class="card shadow-sm">
     <div class="card-body">
       <form method="post" enctype="multipart/form-data">

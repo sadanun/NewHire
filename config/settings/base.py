@@ -120,7 +120,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "blog.users",
     "blog.blogs",
-    "blog.blog_dashboard.apps.DashboardConfig",
+    "blog.blog_dashboard",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -285,7 +285,6 @@ CKEDITOR_5_CONFIGS = {
             ],
         },
     },
-    # config อีกชุดสำหรับ comment สั้นๆ
     "comment": {
         "toolbar": ["bold", "italic", "link", "bulletedList", "numberedList"],
     },
@@ -488,13 +487,11 @@ OSCAR_DASHBOARD_NAVIGATION += [  # noqa: F405
         "label": "Post List",
         "icon": "fas fa-shopping-cart",
         "url_name": "blog_dashboard:post-list",
-        # "access_fn": lambda user, *args, **kwargs: user.is_authenticated,
     },
     {
         "label": "Category List",
         "icon": "fas fa-chart-bar",
         "url_name": "blog_dashboard:category-list",
-        # "access_fn": lambda user, *args, **kwargs: user.is_authenticated,
     },
 ]
 

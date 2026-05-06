@@ -1,0 +1,9 @@
+{% if record.featured_image %}
+  <a href="{{ record.featured_image.url }}">
+    <img src="{{ record.featured_image.url }}"
+         alt="{{ record.title }}"
+         class="post-thumb" />
+  </a>
+{% else %}
+  —
+{% endif %}

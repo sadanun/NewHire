@@ -4,6 +4,7 @@ from oscar.core.loading import get_class
 
 
 class DashboardConfig(OscarDashboardConfig):
+    default = True
     default_auto_field = "django.db.models.BigAutoField"
     name = "blog.blog_dashboard"
     label = "blog_dashboard"
