@@ -1,20 +1,15 @@
 {% extends 'oscar/dashboard/layout.html' %}
 
+{% block extrastyles %}
+  {% load static %}
+
+  <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+{% endblock extrastyles %}
 {% load i18n %}
 
 {% block title %}
   {% trans "Post Details" %} | {{ block.super }}
 {% endblock title %}
-{% block extrastyles %}
-  <style>
-    .post-featured-image {
-      width: 20%;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-  </style>
-{% endblock extrastyles %}
 {% block breadcrumbs %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -50,11 +45,11 @@
         {% if post.featured_image %}
           <img src="{{ post.featured_image.url }}"
                alt="{{ post.title }}"
-               class="post-featured-image" />
+               class="post-detail-featured-image" />
         {% endif %}
         <h1>{{ post.title }}</h1>
         <div class="text-muted small mb-4">
-          {{ post.author }} · {{ post.published_at|default:post.created_at|date:"j M Y H:i" }}
+          {{ post.author }} · {{ post.published_at|default:post.created_at|date:"DATETIME_FORMAT" }}
         </div>
         {% if post.cover_image %}
           <img src="{{ post.cover_image.url }}"
@@ -69,7 +64,8 @@
               <form method="post"
                     action="{% url 'blog_dashboard:comment-create' post_pk=post.pk %}"
                     class="mb-4">
-                {% csrf_token %} {{ comment_form.body }}
+                {% csrf_token %}
+                {% include "oscar/partials/form_fields.html" with form=form.body %}
                 <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
               </form>
             {% else %}
@@ -81,7 +77,7 @@
                 <div class="flex-grow-1">
                   <div class="d-flex justify-content-between">
                     <strong>{{ comment.author }}</strong>
-                    <small class="text-muted">{{ comment.created_at|date:"F d, Y H:i" }}</small>
+                    <small class="text-muted">{{ comment.created_at|date:"DATETIME_FORMAT" }}</small>
                   </div>
                   <p class="mb-0">{{ comment.body|linebreaksbr }}</p>
                 </div>

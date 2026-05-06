@@ -13,7 +13,7 @@ class PostCreateForm(forms.ModelForm):
             "status": forms.Select(attrs={"class": "form-control"}),
             "category": forms.Select(attrs={"class": "form-control"}),
             "tags": forms.SelectMultiple(attrs={"class": "form-control"}),
-            "body": CKEditor5Widget(config_name="default"),
+            "body": CKEditor5Widget(),
             "featured_image": forms.ClearableFileInput(
                 attrs={
                     "class": "form-control",
@@ -32,7 +32,7 @@ class PostUpdateForm(forms.ModelForm):
             "status": forms.Select(attrs={"class": "form-control"}),
             "category": forms.Select(attrs={"class": "form-control"}),
             "tags": forms.SelectMultiple(attrs={"class": "form-control"}),
-            "body": CKEditor5Widget(config_name="default"),
+            "body": CKEditor5Widget(),
         }
 
 

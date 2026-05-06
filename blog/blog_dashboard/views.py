@@ -53,7 +53,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 post_create_view = PostCreateView.as_view()
 
 
-class PostDetailView(DetailView, FormMixin):
+class PostDetailView(FormMixin, DetailView):
     model = Post
     template_name = "post-detail.html"
     context_object_name = "post"
@@ -62,7 +62,6 @@ class PostDetailView(DetailView, FormMixin):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["comments"] = self.object.comments.select_related("author")
-        ctx["comment_form"] = ctx.get("form") or CommentForm()
         return ctx
 
 
@@ -75,9 +74,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "post-update.html"
     success_url = reverse_lazy("blog_dashboard:post-list")
 
-    def get_queryset(self):
-        return Post.objects.filter(pk=self.kwargs["pk"])
-
 
 post_update_view = PostUpdateView.as_view()
 
@@ -87,9 +83,6 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "post-delete.html"
     context_object_name = "post"
     success_url = reverse_lazy("blog_dashboard:post-list")
-
-    def get_queryset(self):
-        return Post.objects.filter(pk=self.kwargs["pk"])
 
 
 post_delete_view = PostDeleteView.as_view()
@@ -125,9 +118,6 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "category-update.html"
     success_url = reverse_lazy("blog_dashboard:category-list")
 
-    def get_queryset(self):
-        return Category.objects.filter(pk=self.kwargs["pk"])
-
 
 category_update_view = CategoryUpdateView.as_view()
 
@@ -137,9 +127,6 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "category-delete.html"
     context_object_name = "category"
     success_url = reverse_lazy("blog_dashboard:category-list")
-
-    def get_queryset(self):
-        return Category.objects.filter(pk=self.kwargs["pk"])
 
 
 category_delete_view = CategoryDeleteView.as_view()

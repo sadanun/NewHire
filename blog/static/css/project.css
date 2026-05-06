@@ -27,6 +27,13 @@
 }
 
 .post-featured-image {
-  width: 55px;
-  border-radius: 4px;
+  width: 55px !important;
+  border-radius: 4px !important;
+}
+
+.post-detail-featured-image {
+  width: 20%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
 }
