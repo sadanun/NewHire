@@ -1,0 +1,14 @@
+{% block extrastyles %}
+  {% load static %}
+
+  <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+{% endblock extrastyles %}
+{% if record.featured_image %}
+  <a href="{{ record.featured_image.url }}">
+    <img src="{{ record.featured_image.url }}"
+         alt="{{ record.name }}"
+         class="post-featured-image" />
+  </a>
+{% else %}
+  —
+{% endif %}

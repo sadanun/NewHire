@@ -1,3 +1,4 @@
+from django.apps import apps
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -15,8 +16,12 @@ urlpatterns = [
         name="about",
     ),
     path("blogs/", include("blog.blogs.urls")),
+    path("dashboard/", apps.get_app_config("blog_dashboard").urls),
+    path("i18n/", include("django.conf.urls.i18n")),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
+    path("", include(apps.get_app_config("oscar").urls[0])),
     # User management
     path("users/", include("blog.users.urls")),
     path("accounts/", include("allauth.urls")),

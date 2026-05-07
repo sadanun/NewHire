@@ -2,12 +2,20 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="categories",
+    )
 
     class Meta:
         app_label = "blogs"
@@ -19,6 +27,13 @@ class Category(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="tags",
+    )
 
     def __str__(self):
         return self.name
@@ -27,14 +42,14 @@ class Tag(models.Model):
 def validate_file_size(value):
     limit_mb = 2
     if value.size > limit_mb * 1024 * 1024:
-        error_message = f"ไฟล์รูปภาพมีขนาดใหญ่เกินไป (สูงสุด {limit_mb} MB)"
+        error_message = f"The image file is too large. (Maximum {limit_mb} MB)"
         raise ValidationError(error_message)
 
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    body = models.TextField()
+    body = CKEditor5Field("Body", config_name="default")
     featured_image = models.ImageField(
         upload_to="posts/images/",
         blank=True,

@@ -1,0 +1,17 @@
+<div class="float-right">
+  {% if record.author_id == user.id or user.is_staff %}
+    <div class="btn-group btn-group-sm" role="group">
+      <a href="{% url 'blog_dashboard:post-update' record.pk %}"
+         class="btn btn-warning"
+         title="Edit">
+        <i class="bi bi-pencil"></i> Edit
+      </a>
+      <a href="{% url 'blog_dashboard:post-delete' record.pk %}"
+         class="btn btn-danger"
+         title="Delete"
+         onclick="return confirm('Delete this post?');">
+        <i class="bi bi-trash"></i> Delete
+      </a>
+    </div>
+  {% endif %}
+</div>

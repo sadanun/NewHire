@@ -136,6 +136,7 @@ dependencies = [
     { name = "django-allauth", extra = ["mfa"] },
     { name = "django-anymail", extra = ["amazon-ses"] },
     { name = "django-celery-beat" },
+    { name = "django-ckeditor-5" },
     { name = "django-cors-headers" },
     { name = "django-crispy-forms" },
     { name = "django-environ" },
@@ -143,6 +144,7 @@ dependencies = [
     { name = "django-oscar" },
     { name = "django-redis" },
     { name = "django-storages", extra = ["s3"] },
+    { name = "django-tables2" },
     { name = "djangorestframework" },
     { name = "drf-spectacular" },
     { name = "flower" },
@@ -188,6 +190,7 @@ requires-dist = [
     { name = "django-allauth", extras = ["mfa"], specifier = "==65.16.1" },
     { name = "django-anymail", extras = ["amazon-ses"], specifier = "==15.0" },
     { name = "django-celery-beat", specifier = "==2.9.0" },
+    { name = "django-ckeditor-5", specifier = ">=0.2.20" },
     { name = "django-cors-headers", specifier = "==4.9.0" },
     { name = "django-crispy-forms", specifier = "==2.6" },
     { name = "django-environ", specifier = "==0.13.0" },
@@ -195,6 +198,7 @@ requires-dist = [
     { name = "django-oscar", specifier = "==4.1" },
     { name = "django-redis", specifier = "==6.0.0" },
     { name = "django-storages", extras = ["s3"], specifier = "==1.14.6" },
+    { name = "django-tables2", specifier = "==2.7.0" },
     { name = "djangorestframework", specifier = "==3.17.1" },
     { name = "drf-spectacular", specifier = "==0.29.0" },
     { name = "flower", specifier = "==2.0.1" },
@@ -656,6 +660,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/05/45/fc97bc1d9af8e7dc07f1e37044d9551a30e6793249864cef802341e2e3a8/django_celery_beat-2.9.0.tar.gz", hash = "sha256:92404650f52fcb44cf08e2b09635cb1558327c54b1a5d570f0e2d3a22130934c", size = 177667, upload-time = "2026-02-28T16:45:34.749Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/71/ae/9befa7ae37f5e5c41be636a254fcf47ff30dd5c88bd115070e252f6b9162/django_celery_beat-2.9.0-py3-none-any.whl", hash = "sha256:4a9e5ebe26d6f8d7215e1fc5c46e466016279dc102435a28141108649bdf2157", size = 105013, upload-time = "2026-02-28T16:45:32.822Z" },
+]
+
+[[package]]
+name = "django-ckeditor-5"
+version = "0.2.20"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "pillow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4b/e0/2dbbf2eb59411bf063646ac541753d1cdeacdcd2bb3defb03a456369a2de/django_ckeditor_5-0.2.20.tar.gz", hash = "sha256:7c3d67cc8bbce3564108578b8fafe8e752c6ad4fbf45b1ffee821045ba2c0e96", size = 3049978, upload-time = "2026-02-21T20:40:38.923Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b0/52/e9ed3f359d06cf7c7476e274059f5318ac81e82e20de9f4fcf714a576dea/django_ckeditor_5-0.2.20-py3-none-any.whl", hash = "sha256:dfff659822fb8d42f55b43265cb51bf8b1e0797dc850e0bf5547644daeaa3fff", size = 3143416, upload-time = "2026-02-21T20:40:37.135Z" },
 ]
 
 [[package]]
