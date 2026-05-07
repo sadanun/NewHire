@@ -9,14 +9,13 @@ class PostCreateForm(forms.ModelForm):
         model = Post
         fields = ["title", "featured_image", "category", "tags", "status", "body"]
         widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "status": forms.Select(attrs={"class": "form-control"}),
-            "category": forms.Select(attrs={"class": "form-control"}),
-            "tags": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "title": forms.TextInput(),
+            "status": forms.Select(),
+            "category": forms.Select(),
+            "tags": forms.SelectMultiple(),
             "body": CKEditor5Widget(),
             "featured_image": forms.ClearableFileInput(
                 attrs={
-                    "class": "form-control",
                     "accept": "image/jpeg,image/png,image/gif,image/webp",
                 }
             ),
@@ -28,10 +27,10 @@ class PostUpdateForm(forms.ModelForm):
         model = Post
         fields = ["title", "featured_image", "category", "tags", "status", "body"]
         widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "status": forms.Select(attrs={"class": "form-control"}),
-            "category": forms.Select(attrs={"class": "form-control"}),
-            "tags": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "title": forms.TextInput(),
+            "status": forms.Select(),
+            "category": forms.Select(),
+            "tags": forms.SelectMultiple(),
             "body": CKEditor5Widget(),
         }
 
@@ -41,8 +40,8 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ["name", "slug"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "slug": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(),
+            "slug": forms.TextInput(),
         }
         labels = {"name": "Category Name", "slug": "Slug"}
 
@@ -52,8 +51,8 @@ class CategoryUpdateForm(forms.ModelForm):
         model = Category
         fields = ["name", "slug"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "slug": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(),
+            "slug": forms.TextInput(),
         }
         labels = {"name": "Category Name", "slug": "Slug"}
 
@@ -65,7 +64,6 @@ class CommentForm(forms.ModelForm):
         widgets = {
             "body": forms.Textarea(
                 attrs={
-                    "class": "form-control",
                     "rows": 3,
                     "placeholder": "write a comment...",
                 }

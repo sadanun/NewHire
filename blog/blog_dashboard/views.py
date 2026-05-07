@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import (
@@ -130,15 +130,19 @@ category_delete_view = CategoryDeleteView.as_view()
 
 
 class CommentCreateView(CreateView):
-    def post(self, request, *args, **kwargs):
+    model = Comment
+    form_class = CommentForm
+    template_name = "comment-create.html"
+
+    def get_success_url(self):
         post_obj = get_object_or_404(Post, pk=self.kwargs["post_pk"])
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author_id = request.user.id
-            comment.post_id = post_obj.pk
-            comment.save()
-        return redirect("blog_dashboard:post-detail", pk=post_obj.pk)
+        return reverse("blog_dashboard:post-detail", kwargs={"pk": post_obj.pk})
+
+    def form_valid(self, form):
+        post_obj = get_object_or_404(Post, pk=self.kwargs["post_pk"])
+        form.instance.author_id = self.request.user.id
+        form.instance.post_id = post_obj.pk
+        return super().form_valid(form)
 
 
 comment_create_view = CommentCreateView.as_view()
