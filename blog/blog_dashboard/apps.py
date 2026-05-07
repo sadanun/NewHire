@@ -8,6 +8,7 @@ class DashboardConfig(OscarDashboardConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "blog.blog_dashboard"
     label = "blog_dashboard"
+    default_permissions = ["is_authenticated"]
 
     def ready(self):
         super().ready()

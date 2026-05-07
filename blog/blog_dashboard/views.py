@@ -1,4 +1,3 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
@@ -24,8 +23,6 @@ from blog.blogs.models import Category, Comment, Post
 
 
 class PostListView(SingleTableMixin, ListView):
-    login_url = "/dashboard/login/"
-    redirect_field_name = "next"
     model = Post
     table_class = PostTable
     template_name = "post-list.html"
@@ -35,7 +32,7 @@ class PostListView(SingleTableMixin, ListView):
 post_list_view = PostListView.as_view()
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(CreateView):
     model = Post
     form_class = PostCreateForm
     template_name = "post-create.html"
@@ -68,7 +65,7 @@ class PostDetailView(FormMixin, DetailView):
 post_detail_view = PostDetailView.as_view()
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(UpdateView):
     model = Post
     form_class = PostUpdateForm
     template_name = "post-update.html"
@@ -78,7 +75,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 post_update_view = PostUpdateView.as_view()
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(DeleteView):
     model = Post
     template_name = "post-delete.html"
     context_object_name = "post"
@@ -98,7 +95,7 @@ class CategoryListView(SingleTableMixin, ListView):
 category_list_view = CategoryListView.as_view()
 
 
-class CategoryCreateView(LoginRequiredMixin, CreateView):
+class CategoryCreateView(CreateView):
     model = Category
     form_class = CategoryForm
     template_name = "category-create.html"
@@ -112,7 +109,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 category_create_view = CategoryCreateView.as_view()
 
 
-class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+class CategoryUpdateView(UpdateView):
     model = Category
     form_class = CategoryUpdateForm
     template_name = "category-update.html"
@@ -122,7 +119,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
 category_update_view = CategoryUpdateView.as_view()
 
 
-class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+class CategoryDeleteView(DeleteView):
     model = Category
     template_name = "category-delete.html"
     context_object_name = "category"
@@ -132,9 +129,7 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
 category_delete_view = CategoryDeleteView.as_view()
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
-    http_method_names = ["post"]
-
+class CommentCreateView(CreateView):
     def post(self, request, *args, **kwargs):
         post_obj = get_object_or_404(Post, pk=self.kwargs["post_pk"])
         form = CommentForm(request.POST)
@@ -149,7 +144,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 comment_create_view = CommentCreateView.as_view()
 
 
-class CommentDeleteView(LoginRequiredMixin, DeleteView):
+class CommentDeleteView(DeleteView):
     model = Comment
     pk_url_kwarg = "comment_pk"
     http_method_names = ["post"]
