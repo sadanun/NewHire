@@ -1,6 +1,6 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.utils.text import slugify
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -43,8 +43,10 @@ class PostCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.author_id = self.request.user.id
-        form.instance.slug = slugify(form.instance.title)
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 post_create_view = PostCreateView.as_view()
@@ -71,6 +73,15 @@ class PostUpdateView(UpdateView):
     template_name = "post-update.html"
     success_url = reverse_lazy("blog_dashboard:post-list")
 
+    def form_valid(self, form):
+        if (
+            self.object.author.id != self.request.user.id
+            and not self.request.user.is_staff
+        ):
+            msg = "You do not have permission to update this category."
+            raise PermissionDenied(msg)
+        return super().form_valid(form)
+
 
 post_update_view = PostUpdateView.as_view()
 
@@ -80,6 +91,15 @@ class PostDeleteView(DeleteView):
     template_name = "post-delete.html"
     context_object_name = "post"
     success_url = reverse_lazy("blog_dashboard:post-list")
+
+    def form_valid(self, form):
+        if (
+            self.object.author.id != self.request.user.id
+            and not self.request.user.is_staff
+        ):
+            msg = "You do not have permission to delete this category."
+            raise PermissionDenied(msg)
+        return super().form_valid(form)
 
 
 post_delete_view = PostDeleteView.as_view()
@@ -115,6 +135,15 @@ class CategoryUpdateView(UpdateView):
     template_name = "category-update.html"
     success_url = reverse_lazy("blog_dashboard:category-list")
 
+    def form_valid(self, form):
+        if (
+            self.object.author.id != self.request.user.id
+            and not self.request.user.is_staff
+        ):
+            msg = "You do not have permission to update this category."
+            raise PermissionDenied(msg)
+        return super().form_valid(form)
+
 
 category_update_view = CategoryUpdateView.as_view()
 
@@ -124,6 +153,15 @@ class CategoryDeleteView(DeleteView):
     template_name = "category-delete.html"
     context_object_name = "category"
     success_url = reverse_lazy("blog_dashboard:category-list")
+
+    def form_valid(self, form):
+        if (
+            self.object.author.id != self.request.user.id
+            and not self.request.user.is_staff
+        ):
+            msg = "You do not have permission to delete this category."
+            raise PermissionDenied(msg)
+        return super().form_valid(form)
 
 
 category_delete_view = CategoryDeleteView.as_view()
@@ -156,6 +194,15 @@ class CommentDeleteView(DeleteView):
     def get_success_url(self):
         comment = self.get_object()
         return reverse("blog_dashboard:post-detail", kwargs={"pk": comment.post_id})
+
+    def form_valid(self, form):
+        if (
+            self.object.author.id != self.request.user.id
+            and not self.request.user.is_staff
+        ):
+            msg = "You do not have permission to delete this comment."
+            raise PermissionDenied(msg)
+        return super().form_valid(form)
 
 
 comment_delete_view = CommentDeleteView.as_view()
