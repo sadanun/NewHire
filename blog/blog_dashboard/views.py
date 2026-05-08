@@ -45,9 +45,6 @@ class PostCreateView(CreateView):
         form.instance.author_id = self.request.user.id
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        return super().form_invalid(form)
-
 
 post_create_view = PostCreateView.as_view()
 
