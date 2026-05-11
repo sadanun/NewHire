@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
+from oscar.models.fields import AutoSlugField
 
 
 # Create your models here.
@@ -48,7 +49,13 @@ def validate_file_size(value):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    slug = AutoSlugField(
+        populate_from="title",
+        max_length=128,
+        unique=True,
+        separator="-",
+        overwrite=False,
+    )
     body = CKEditor5Field("Body", config_name="default")
     featured_image = models.ImageField(
         upload_to="posts/images/",
@@ -60,7 +67,9 @@ class Post(models.Model):
         ],
     )
     status = models.CharField(
-        max_length=10, choices=[("draft", "Draft"), ("published", "Published")]
+        max_length=10,
+        choices=[("draft", "Draft"), ("published", "Published")],
+        default="draft",
     )
     category = models.ForeignKey("blogs.Category", on_delete=models.SET_NULL, null=True)
     tags = models.ManyToManyField(Tag, blank=True)

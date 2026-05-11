@@ -32,6 +32,11 @@ class PostUpdateForm(forms.ModelForm):
             "category": forms.Select(),
             "tags": forms.SelectMultiple(),
             "body": CKEditor5Widget(),
+            "featured_image": forms.ClearableFileInput(
+                attrs={
+                    "accept": "image/jpeg,image/png,image/gif,image/webp",
+                }
+            ),
         }
 
 

@@ -20,11 +20,13 @@ dependencies = [
   "django==5.2.1",
   "django-allauth[mfa]==65.16.1",
   "django-anymail[amazon-ses]==15.0",
+  "django-autoslug>=1.9.9",
   "django-celery-beat==2.9.0",
   "django-ckeditor-5>=0.2.20",
   "django-cors-headers==4.9.0",
   "django-crispy-forms==2.6",
   "django-environ==0.13.0",
+  "django-filter>=25.2",
   "django-model-utils==5.0.0",
   "django-oscar==4.1",
   "django-redis==6.0.0",
@@ -32,11 +34,16 @@ dependencies = [
   "django-tables2==2.7.0",
   "djangorestframework==3.17.1",
   "drf-spectacular==0.29.0",
+  "factory-boy>=3.3.3",
   "flower==2.0.1",
   "gunicorn==25.3.0",
   "hiredis==3.3.1",
+  "markdown>=3.10.2",
   "pillow==12.2.0",
   "psycopg==3.3.3",
+  "pytest>=9.0.3",
+  "pytest-django>=4.12.0",
+  "pytest-factoryboy>=2.8.1",
   "python-slugify==8.0.4",
   "redis==7.4.0",
 ]
@@ -54,7 +61,7 @@ dev = [
   "ipdb==0.13.13",
   "mypy==1.20.1",
   "pre-commit==4.5.1",
-  "psycopg[c]==3.3.3",
+  "psycopg[binary]==3.3.3",
   "pytest==9.0.3",
   "pytest-django==4.12.0",
   "pytest-sugar==1.1.1",
@@ -129,6 +136,11 @@ lint.ignore = [
   # of types for comparison.
   # Deactivated because it can make the code slow:
   # https://github.com/astral-sh/ruff/issues/7871
+]
+lint.per-file-ignores."**/tests/**" = [
+  "PLR2004", # Magic value used in comparison (status codes, etc.)
+  "S105",    # Possible hardcoded password assigned to a variable
+  "S106",    # Possible hardcoded password assigned to a function argument
 ]
 lint.isort.force-single-line = false
 
