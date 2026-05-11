@@ -7,6 +7,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="blogs/home.html"), name="home"),
@@ -17,6 +18,7 @@ urlpatterns = [
     ),
     path("blogs/", include("blog.blogs.urls")),
     path("dashboard/", apps.get_app_config("blog_dashboard").urls),
+    path("api/", include("blog.blog_api.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     # Django Admin, use {% url 'admin:index' %}
@@ -41,6 +43,13 @@ urlpatterns += [
         "api/docs/",
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
+    ),
+    # JWT auth
+    path(
+        "api/token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"
+    ),
+    path(
+        "api/token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
     ),
 ]
 

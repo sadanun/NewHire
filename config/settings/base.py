@@ -109,6 +109,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "django_celery_beat",
     "rest_framework",
+    "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
@@ -121,6 +122,7 @@ LOCAL_APPS = [
     "blog.users",
     "blog.blogs",
     "blog.blog_dashboard",
+    "blog.blog_api",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -460,6 +462,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
