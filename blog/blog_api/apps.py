@@ -1,8 +1,6 @@
 from django.apps import AppConfig
 from django.urls import include
 
-from . import urls as blog_api_urls
-
 
 class BlogApiConfig(AppConfig):
     default = True
@@ -12,4 +10,7 @@ class BlogApiConfig(AppConfig):
 
     @property
     def urls(self):
+
+        from . import urls as blog_api_urls  # noqa: PLC0415
+
         return include(blog_api_urls)

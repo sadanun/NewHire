@@ -19,7 +19,7 @@ router.register(
 )
 
 
-app_name = "blogs_api"
+app_name = "blog_api"
 urlpatterns = [
     path("", include(router.urls)),
 ]
