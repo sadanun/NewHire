@@ -18,7 +18,6 @@ urlpatterns = [
     ),
     path("blogs/", include("blog.blogs.urls")),
     path("dashboard/", apps.get_app_config("blog_dashboard").urls),
-    path("api/", include("blog.blog_api.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     # Django Admin, use {% url 'admin:index' %}
@@ -44,6 +43,7 @@ urlpatterns += [
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
     ),
+    path("api/", apps.get_app_config("blog_api").urls),
     # JWT auth
     path(
         "api/token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"

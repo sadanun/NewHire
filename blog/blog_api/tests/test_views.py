@@ -13,7 +13,7 @@ class TestPostListAPI(APITestCase):
         self.post = PostFactory(author=self.user)
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse("blogs_api:post-list")
+        self.url = reverse("blogs_api:posts-list")
 
     def test_post_list_without_authentication(self):
         self.client.credentials()
@@ -47,7 +47,7 @@ class TestPostDetailAPI(APITestCase):
         self.post = PostFactory(author=self.user)
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse("blogs_api:post-detail", kwargs={"pk": self.post.id})
+        self.url = reverse("blogs_api:posts-detail", kwargs={"pk": self.post.id})
 
     def test_post_detail_without_authentication(self):
         self.client.credentials()
@@ -60,7 +60,7 @@ class TestPostDetailAPI(APITestCase):
         assert self.post.title in response.content.decode()
 
     def test_update_post_non_existent(self):
-        url = reverse("blogs_api:post-detail", kwargs={"pk": 999})
+        url = reverse("blogs_api:posts-detail", kwargs={"pk": 999})
         category = CategoryFactory()
         data = {
             "title": "Updated Post",
@@ -93,7 +93,7 @@ class TestCategoryListAPI(APITestCase):
         self.category = CategoryFactory()
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse("blogs_api:category-list")
+        self.url = reverse("blogs_api:categories-list")
 
     def test_category_list_without_authentication(self):
         self.client.credentials()
@@ -120,7 +120,9 @@ class TestCategoryDetailAPI(APITestCase):
         self.category = CategoryFactory()
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse("blogs_api:category-detail", kwargs={"pk": self.category.id})
+        self.url = reverse(
+            "blogs_api:categories-detail", kwargs={"pk": self.category.id}
+        )
 
     def test_category_detail_without_authentication(self):
         self.client.credentials()
@@ -133,7 +135,7 @@ class TestCategoryDetailAPI(APITestCase):
         assert self.category.name in response.content.decode()
 
     def test_update_category_non_existent(self):
-        url = reverse("blogs_api:category-detail", kwargs={"pk": 999})
+        url = reverse("blogs_api:categories-detail", kwargs={"pk": 999})
         data = {"name": "Updated Category", "slug": "updated-category"}
         response = self.client.put(url, data)
         assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -153,7 +155,7 @@ class TestCommentListAPI(APITestCase):
         self.comment = CommentFactory(post=self.post, author=self.user)
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse("blogs_api:comment-list")
+        self.url = reverse("blogs_api:comments-list")
 
     def test_comment_list_without_authentication(self):
         self.client.credentials()
@@ -185,7 +187,7 @@ class TestCommentDetailAPI(APITestCase):
         self.comment = CommentFactory(post=self.post, author=self.user)
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse("blogs_api:comment-detail", kwargs={"pk": self.comment.id})
+        self.url = reverse("blogs_api:comments-detail", kwargs={"pk": self.comment.id})
 
     def test_comment_detail_without_authentication(self):
         self.client.credentials()
@@ -198,9 +200,9 @@ class TestCommentDetailAPI(APITestCase):
         assert self.comment.body in response.content.decode()
 
     def test_update_comment_non_existent(self):
-        url = reverse("blogs_api:comment-detail", kwargs={"pk": 999})
+        url = reverse("blogs_api:comments-detail", kwargs={"pk": 999})
         data = {
-            "body": "This is an updated comment.",
+            "body": "This is an updated comments.",
             "post": self.post.id,
             "author": self.user.id,
         }
@@ -227,7 +229,7 @@ class TestCommentListInPostAPI(APITestCase):
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         self.url = reverse(
-            "blogs_api:comment-list-in-post", kwargs={"post_id": self.post.id}
+            "blogs_api:post-comments-list", kwargs={"post_id": self.post.id}
         )
 
     def test_comment_list_in_post_without_authentication(self):
@@ -250,7 +252,7 @@ class TestAllBlogBelongsToCategoryAPI(APITestCase):
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         self.url = reverse(
-            "blogs_api:all-blog-belongs-to-category",
+            "blogs_api:category-posts-list",
             kwargs={"category_id": self.category.id},
         )
 
