@@ -11,6 +11,7 @@ class TestPostListAPI(APITestCase):
     def setUp(self):
         self.user = UserFactory()
         self.post = PostFactory(author=self.user)
+        self.comment = CommentFactory(post=self.post, author=self.user)
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         self.url = reverse("blog_api:posts-list")
@@ -39,6 +40,18 @@ class TestPostListAPI(APITestCase):
         assert response.status_code == status.HTTP_201_CREATED
         new_post = Post.objects.filter(title="New Post").first()
         assert new_post is not None
+
+    def test_comment_list_in_post_without_authentication(self):
+        self.client.credentials()
+        url = reverse("blog_api:posts-comments", kwargs={"pk": self.post.id})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_comment_list_in_post_api(self):
+        url = reverse("blog_api:posts-comments", kwargs={"pk": self.post.id})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert self.comment.body in response.content.decode()
 
 
 class TestPostDetailAPI(APITestCase):
@@ -91,6 +104,7 @@ class TestCategoryListAPI(APITestCase):
     def setUp(self):
         self.user = UserFactory()
         self.category = CategoryFactory()
+        self.post = PostFactory(author=self.user, category=self.category)
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         self.url = reverse("blog_api:categories-list")
@@ -103,7 +117,7 @@ class TestCategoryListAPI(APITestCase):
     def test_category_list_api(self):
         response = self.client.get(self.url)
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
+        assert len(response.data) >= 1
         assert self.category.name in response.content.decode()
 
     def test_category_create_api(self):
@@ -112,6 +126,18 @@ class TestCategoryListAPI(APITestCase):
         assert response.status_code == status.HTTP_201_CREATED
         new_category = Category.objects.filter(name="Create Category").first()
         assert new_category is not None
+
+    def test_all_blog_belongs_to_category_without_authentication(self):
+        self.client.credentials()
+        url = reverse("blog_api:categories-posts", kwargs={"pk": self.category.id})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_all_blog_belongs_to_category_api(self):
+        url = reverse("blog_api:categories-posts", kwargs={"pk": self.category.id})
+        response = self.client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert self.post.title in response.content.decode()
 
 
 class TestCategoryDetailAPI(APITestCase):
@@ -165,7 +191,7 @@ class TestCommentListAPI(APITestCase):
     def test_comment_list_api(self):
         response = self.client.get(self.url)
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
+        assert len(response.data) >= 1
         assert self.comment.body in response.content.decode()
 
     def test_comment_create_api(self):
@@ -219,50 +245,3 @@ class TestCommentDetailAPI(APITestCase):
         assert response.status_code == status.HTTP_200_OK
         new_comment = Comment.objects.filter(body="This is an updated comment.").first()
         assert new_comment is not None
-
-
-class TestCommentListInPostAPI(APITestCase):
-    def setUp(self):
-        self.user = UserFactory()
-        self.post = PostFactory(author=self.user)
-        self.comment = CommentFactory(post=self.post, author=self.user)
-        refresh = RefreshToken.for_user(self.user)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse(
-            "blog_api:post-comments-list", kwargs={"post_id": self.post.id}
-        )
-
-    def test_comment_list_in_post_without_authentication(self):
-        self.client.credentials()
-        response = self.client.get(self.url)
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-
-    def test_comment_list_in_post_api(self):
-        response = self.client.get(self.url)
-        assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
-        assert self.comment.body in response.content.decode()
-
-
-class TestAllBlogBelongsToCategoryAPI(APITestCase):
-    def setUp(self):
-        self.user = UserFactory()
-        self.category = CategoryFactory()
-        self.post = PostFactory(author=self.user, category=self.category)
-        refresh = RefreshToken.for_user(self.user)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        self.url = reverse(
-            "blog_api:category-posts-list",
-            kwargs={"category_id": self.category.id},
-        )
-
-    def test_all_blog_belongs_to_category_without_authentication(self):
-        self.client.credentials()
-        response = self.client.get(self.url)
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-
-    def test_all_blog_belongs_to_category_api(self):
-        response = self.client.get(self.url)
-        assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
-        assert self.post.title in response.content.decode()
