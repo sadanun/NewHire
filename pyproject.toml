@@ -33,6 +33,7 @@ dependencies = [
   "django-storages[s3]==1.14.6",
   "django-tables2==2.7.0",
   "djangorestframework==3.17.1",
+  "djangorestframework-simplejwt>=5.5.1",
   "drf-spectacular==0.29.0",
   "factory-boy>=3.3.3",
   "flower==2.0.1",
@@ -46,6 +47,7 @@ dependencies = [
   "pytest-factoryboy>=2.8.1",
   "python-slugify==8.0.4",
   "redis==7.4.0",
+  "rest-framework-simplejwt>=0.0.2",
 ]
 
 [dependency-groups]
